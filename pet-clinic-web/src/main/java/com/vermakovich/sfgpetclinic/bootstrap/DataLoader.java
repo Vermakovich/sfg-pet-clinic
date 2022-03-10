@@ -1,6 +1,7 @@
 package com.vermakovich.sfgpetclinic.bootstrap;
 
 import com.vermakovich.sfgpetclinic.model.Owner;
+import com.vermakovich.sfgpetclinic.model.Pet;
 import com.vermakovich.sfgpetclinic.model.PetType;
 import com.vermakovich.sfgpetclinic.model.Vet;
 import com.vermakovich.sfgpetclinic.services.PetTypeService;
@@ -8,6 +9,8 @@ import com.vermakovich.sfgpetclinic.services.map.OwnerServiceMap;
 import com.vermakovich.sfgpetclinic.services.map.VetServiceMap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -33,27 +36,40 @@ public class DataLoader implements CommandLineRunner {
         cat.setName("Cat");
         PetType savedCatPetType = petTypeService.save(cat);
 
-        Owner owner1 = new Owner();
-        owner1.setFirstName("Mat");
-        owner1.setLastName("Rives");
-        ownerServiceMap.save(owner1);
+        Owner matt = new Owner();
+        matt.setFirstName("Matt");
+        matt.setLastName("Rives");
+        Pet matsDog = new Pet();
+        matsDog.setName("Rex");
+        matsDog.setBirthDate(LocalDate.now());
+        matsDog.setPetType(savedDogPetType);
+        matsDog.setOwner(matt);
+        matt.getPets().add(matsDog);
 
-        Owner owner2 = new Owner();
-        owner2.setFirstName("Rob");
-        owner2.setLastName("Pattins");
-        ownerServiceMap.save(owner2);
+        ownerServiceMap.save(matt);
+
+        Owner rob = new Owner();
+        rob.setFirstName("Rob");
+        rob.setLastName("Pattins");
+        Pet robsCat = new Pet();
+        robsCat.setName("Cat");
+        robsCat.setPetType(savedCatPetType);
+        robsCat.setBirthDate(LocalDate.now());
+        robsCat.setOwner(rob);
+        rob.getPets().add(robsCat);
+        ownerServiceMap.save(rob);
 
         System.out.println("Owners loaded....");
 
-        Vet vet1 = new Vet();
-        vet1.setFirstName("Colin");
-        vet1.setLastName("Farrel");
-        vetServiceMap.save(vet1);
+        Vet colin = new Vet();
+        colin.setFirstName("Colin");
+        colin.setLastName("Farrel");
+        vetServiceMap.save(colin);
 
-        Vet vet2 = new Vet();
-        vet2.setFirstName("Tom");
-        vet2.setLastName("Hanks");
-        vetServiceMap.save(vet2);
+        Vet tom = new Vet();
+        tom.setFirstName("Tom");
+        tom.setLastName("Hanks");
+        vetServiceMap.save(tom);
 
         System.out.println("Vets loaded....");
     }
