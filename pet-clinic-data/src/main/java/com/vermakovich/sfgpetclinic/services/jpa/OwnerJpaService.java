@@ -3,12 +3,14 @@ package com.vermakovich.sfgpetclinic.services.jpa;
 import com.vermakovich.sfgpetclinic.model.Owner;
 import com.vermakovich.sfgpetclinic.repositories.OwnerRepository;
 import com.vermakovich.sfgpetclinic.services.OwnerService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@Profile("jpa")
 public class OwnerJpaService implements OwnerService {
 
     private final OwnerRepository ownerRepository;
