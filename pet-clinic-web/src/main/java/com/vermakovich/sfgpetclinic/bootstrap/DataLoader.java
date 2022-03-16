@@ -3,8 +3,8 @@ package com.vermakovich.sfgpetclinic.bootstrap;
 import com.vermakovich.sfgpetclinic.model.*;
 import com.vermakovich.sfgpetclinic.services.PetTypeService;
 import com.vermakovich.sfgpetclinic.services.SpecialtyService;
-import com.vermakovich.sfgpetclinic.services.map.OwnerServiceMap;
-import com.vermakovich.sfgpetclinic.services.map.VetServiceMap;
+import com.vermakovich.sfgpetclinic.services.map.OwnerMapService;
+import com.vermakovich.sfgpetclinic.services.map.VetMapService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,14 +13,14 @@ import java.time.LocalDate;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    private final OwnerServiceMap ownerServiceMap;
-    private final VetServiceMap vetServiceMap;
+    private final OwnerMapService ownerServiceMap;
+    private final VetMapService vetMapService;
     private final PetTypeService petTypeService;
     private final SpecialtyService specialtyService;
 
-    public DataLoader(OwnerServiceMap ownerServiceMap, VetServiceMap vetServiceMap, PetTypeService petTypeService, SpecialtyService specialtyService) {
+    public DataLoader(OwnerMapService ownerServiceMap, VetMapService vetMapService, PetTypeService petTypeService, SpecialtyService specialtyService) {
         this.ownerServiceMap = ownerServiceMap;
-        this.vetServiceMap = vetServiceMap;
+        this.vetMapService = vetMapService;
         this.petTypeService = petTypeService;
         this.specialtyService = specialtyService;
     }
@@ -84,13 +84,13 @@ public class DataLoader implements CommandLineRunner {
         colin.setFirstName("Colin");
         colin.setLastName("Farrel");
         colin.getSpecialties().add(savedRadiology);
-        vetServiceMap.save(colin);
+        vetMapService.save(colin);
 
         Vet tom = new Vet();
         tom.setFirstName("Tom");
         tom.setLastName("Hanks");
         tom.getSpecialties().add(savedSurgery);
-        vetServiceMap.save(tom);
+        vetMapService.save(tom);
 
         System.out.println("Vets loaded....");
     }
