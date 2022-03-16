@@ -1,10 +1,7 @@
 package com.vermakovich.sfgpetclinic.bootstrap;
 
 import com.vermakovich.sfgpetclinic.model.*;
-import com.vermakovich.sfgpetclinic.services.PetTypeService;
-import com.vermakovich.sfgpetclinic.services.SpecialtyService;
-import com.vermakovich.sfgpetclinic.services.map.OwnerMapService;
-import com.vermakovich.sfgpetclinic.services.map.VetMapService;
+import com.vermakovich.sfgpetclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,16 +10,18 @@ import java.time.LocalDate;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    private final OwnerMapService ownerServiceMap;
-    private final VetMapService vetMapService;
+    private final OwnerService ownerService;
+    private final VetService vetService;
     private final PetTypeService petTypeService;
     private final SpecialtyService specialtyService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerMapService ownerServiceMap, VetMapService vetMapService, PetTypeService petTypeService, SpecialtyService specialtyService) {
-        this.ownerServiceMap = ownerServiceMap;
-        this.vetMapService = vetMapService;
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService, VisitService visitService) {
+        this.ownerService = ownerService;
+        this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialtyService = specialtyService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -65,7 +64,7 @@ public class DataLoader implements CommandLineRunner {
         matsDog.setOwner(matt);
         matt.getPets().add(matsDog);
 
-        ownerServiceMap.save(matt);
+        ownerService.save(matt);
 
         Owner rob = new Owner();
         rob.setFirstName("Rob");
@@ -76,21 +75,27 @@ public class DataLoader implements CommandLineRunner {
         robsCat.setBirthDate(LocalDate.now());
         robsCat.setOwner(rob);
         rob.getPets().add(robsCat);
-        ownerServiceMap.save(rob);
+        ownerService.save(rob);
 
+        Visit visit = new Visit();
+        visit.setDate(LocalDate.now());
+        visit.setDescription("Cat disease");
+        visit.setPet(robsCat);
+        visitService.save(visit);
+        
         System.out.println("Owners loaded....");
 
         Vet colin = new Vet();
         colin.setFirstName("Colin");
         colin.setLastName("Farrel");
         colin.getSpecialties().add(savedRadiology);
-        vetMapService.save(colin);
+        vetService.save(colin);
 
         Vet tom = new Vet();
         tom.setFirstName("Tom");
         tom.setLastName("Hanks");
         tom.getSpecialties().add(savedSurgery);
-        vetMapService.save(tom);
+        vetService.save(tom);
 
         System.out.println("Vets loaded....");
     }
